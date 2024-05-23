@@ -1,4 +1,7 @@
 package com.pizza.apipizza.repository;
 
-public interface PizzaIngredientRepository {
+import com.pizza.apipizza.entity.PizzaIngredient;
+import org.springframework.data.repository.CrudRepository;
+
+public interface PizzaIngredientRepository extends CrudRepository<PizzaIngredient, Integer> {
 }

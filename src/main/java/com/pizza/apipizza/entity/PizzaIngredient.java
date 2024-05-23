@@ -20,10 +20,13 @@ public class PizzaIngredient {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "id_pizza", nullable = false)
-    private Integer idPizza;
 
-    @Column(name = "id_ingredient", nullable = false)
-    private Integer idIngredient;
+    @ManyToOne()
+    @JoinColumn(name = "pizza_id", nullable = false)
+    private Pizza pizza;
+
+    @ManyToOne()
+    @JoinColumn(name = "ingredient_id", nullable = false)
+    private Ingredient ingredient;
 
 }
