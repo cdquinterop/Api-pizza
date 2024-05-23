@@ -37,16 +37,58 @@ public class PizzaIngredientService {
             pizzaIngredient = pizzaIngredientRepository.save(pizzaIngredient);
 
             return mapToDto(pizzaIngredient);
+        }else{
+            return null;
         }
 
-        throw new IllegalArgumentException("Pizza or Ingredient not found");
 
+
+    }
+
+    public PizzaIngredientDto update(Integer id, PizzaIngredientDto pizzaIngredientDto){
+
+        PizzaIngredientDto existingPizzaIngredient = findById(id);
+
+        if(existingPizzaIngredient != null){
+             PizzaIngredient pizzaIngredient = PizzaIngredient.builder()
+                     .id(existingPizzaIngredient.getId())
+                     .pizza(pizzaIngredientDto.getPizza())
+                     .ingredient(pizzaIngredientDto.getIngredient())
+                     .build();
+
+             return mapToDto(pizzaIngredientRepository.save(pizzaIngredient));
+        }else {
+            return null;
+        }
     }
 
     public List<PizzaIngredientDto> findAll(){
         return StreamSupport.stream(pizzaIngredientRepository.findAll().spliterator(),false)
                 .map(this::mapToDto)
                 .toList();
+    }
+
+    public PizzaIngredientDto findById(Integer id){
+        return pizzaIngredientRepository.findById(id)
+                .map(this::mapToDto)
+                .orElse(null);
+    }
+
+    public List<PizzaIngredientDto> findIngredientsByPizzaId(Integer id){
+        Optional<Pizza> existingPizza = pizzaRepository.findById(id);
+
+        if(existingPizza.isPresent()){
+            List<PizzaIngredient> pizzaIngredients =pizzaIngredientRepository.findByPizza(existingPizza.get());
+            return pizzaIngredients.stream()
+                    .map(this::mapToDto)
+                    .toList();
+        }else{
+            return null;
+        }
+    }
+
+    public void deleteById(Integer id){
+        pizzaIngredientRepository.deleteById(id);
     }
 
     

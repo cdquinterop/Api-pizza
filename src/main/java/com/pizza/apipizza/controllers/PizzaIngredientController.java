@@ -25,12 +25,60 @@ public class PizzaIngredientController {
         return new ResponseEntity<>(pizzaIngredientSave, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<PizzaIngredientDto> updatePizzaIngredient(@PathVariable Integer id, @RequestBody PizzaIngredientDto pizzaIngredientDto){
+
+        PizzaIngredientDto updatePizzaIngredienDto = pizzaIngredientService.update(id,pizzaIngredientDto);
+
+        if(updatePizzaIngredienDto != null){
+
+            return new ResponseEntity<>(updatePizzaIngredienDto,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+    }
+
+
     @GetMapping
     public ResponseEntity<List<PizzaIngredientDto>> findAll(){
 
         List<PizzaIngredientDto> pizzaIngredientDto = pizzaIngredientService.findAll();
 
         return new ResponseEntity<>(pizzaIngredientDto,HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PizzaIngredientDto>  findById(@PathVariable Integer id){
+
+        PizzaIngredientDto existingPizzaIngredient = pizzaIngredientService.findById(id);
+
+        if(existingPizzaIngredient != null){
+            return new ResponseEntity<>(existingPizzaIngredient, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @GetMapping("/pizza/{id}")
+    public ResponseEntity<List<PizzaIngredientDto>> findByIdPizza(@PathVariable Integer id){
+
+        List<PizzaIngredientDto> ingredientDtos = pizzaIngredientService.findIngredientsByPizzaId(id);
+
+        if(ingredientDtos != null){
+            return new ResponseEntity<>(ingredientDtos,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById( @PathVariable Integer id){
+
+        pizzaIngredientService.deleteById(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
