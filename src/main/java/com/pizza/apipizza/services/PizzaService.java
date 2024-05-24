@@ -39,15 +39,16 @@ public class PizzaService {
                 .orElseThrow(() -> new NoSuchElementException("Id not found"));
     }
 
-    public Pizza update(Integer id, PizzaDto pizzaDto) {
+    public PizzaDto update(Integer id, PizzaDto pizzaDto) {
         Pizza existingPizzaId= pizzaRepository.findById(id).get();
         if(existingPizzaId != null) {
-            return Pizza.builder()
+            Pizza pizza = Pizza.builder()
                     .pizzaId(existingPizzaId.getPizzaId())
                     .pizzaName(pizzaDto.getPizzaName())
                     .pizzaOrigin(pizzaDto.getPizzaOrigin())
                     .pizzaDescription(pizzaDto.getPizzaDescription())
                     .build();
+            return convertToDto(pizzaRepository.save(pizza));
         } else {
             return null;
         }

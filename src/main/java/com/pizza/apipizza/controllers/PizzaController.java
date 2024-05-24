@@ -1,6 +1,7 @@
 package com.pizza.apipizza.controllers;
 
 import com.pizza.apipizza.dto.PizzaDto;
+import com.pizza.apipizza.entity.Pizza;
 import com.pizza.apipizza.repository.PizzaRepository;
 import com.pizza.apipizza.services.PizzaService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,28 @@ public class PizzaController {
         if(pizzaDto.isEmpty())
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(pizzaDto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PizzaDto> findById(@PathVariable Integer id) {
+        PizzaDto pizza = pizzaService.findById(id);
+        if (pizza != null)
+            return ResponseEntity.ok(pizza);
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PizzaDto> update(@PathVariable Integer id, @RequestBody PizzaDto pizzaDto) {
+        PizzaDto pizza = pizzaService.update(id, pizzaDto);
+        if (pizza != null)
+            return ResponseEntity.ok(pizza);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        pizzaService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
