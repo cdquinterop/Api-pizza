@@ -6,9 +6,9 @@ spring:
     name: pizza-api
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/pizza-db
+    url: jdbc:postgresql://roundhouse.proxy.rlwy.net:24382/railway
     username: postgres
-    password: password
+    password: kcaarFDkZeHSlrmZwnKrvZVCqRCpErhm
   jpa:
     hibernate:
       ddl-auto: update
